@@ -1,0 +1,70 @@
+PLACEHOLDER -> VALUE MAP   (paper location in brackets)
+========================================================================
+[Abstract] N deliveries              : 286,621
+[Abstract] M matches                 : 1,195
+[Abstract] season range              : 2007/08--2026
+[Abstract] log loss                  : 0.5211
+[Abstract] Brier score               : 0.1766
+[Abstract] AUC                       : 0.814
+[Abstract] ECE                       : 0.032
+[Abstract] rank corr WPA_100         : 0.133 bat / 0.107 bowl
+[Abstract] rank corr strike rate     : 0.413  (economy 0.480)
+[Abstract] squad-rating AUC          : 0.540
+[III-A] raw corpus                   : 1243 matches, 295,732 delivery records
+[III-B] exclusions                   : 9 no-result, 23 D/L, 16 Super Over -> 1195 retained
+[IV-A]  grid                         : 12 configs; n_estimators{300,600} x max_depth{3,4} x min_child_weight{500,2000,5000}, lr=0.05
+[IV-A]  selected                     : {'n_estimators': 600, 'max_depth': 4, 'learning_rate': 0.05, 'min_child_weight': 2000}
+[IV-D]  unattributed residual        : 1.07% of total |WPA| mass (byes/leg-byes)
+[IV-D]  qualification threshold      : 120 deliveries
+[V-A]   train/val/test               : 2007/08--2023 / 2024 / 2025--2026
+[V-B]   bootstrap replicates B       : 500 (resampled at match level)
+[V-C]   ECE bins k                   : 10 (equal frequency)
+[V-D]   software                     : Python 3.13.14, pandas 3.0.0, scikit-learn 1.6.1, XGBoost 3.4.1, SHAP 0.52.0
+[V-D]   OOF log loss (rating basis)  : 0.5476
+
+95% CIs, match-level bootstrap:
+   Resource-based             logloss [0.5117, 0.6232]   AUC [0.745, 0.838]
+   Logistic regression        logloss [0.4618, 0.5443]   AUC [0.788, 0.871]
+   Gradient boosting (raw)    logloss [0.4687, 0.5780]   AUC [0.765, 0.858]
+   Isotonic, validation season only logloss [0.4769, 0.5977]   AUC [0.762, 0.856]
+   Proposed (calibrated)      logloss [0.4730, 0.5770]   AUC [0.764, 0.857]
+
+SHAP mean |value| ranking:
+   Current run rate           0.4960
+   Wickets in hand            0.3630
+   Required rate / par rate   0.3230
+   Target / par               0.3068
+   Target                     0.2122
+   Score / par                0.2063
+   Venue par score            0.1869
+   Required run rate          0.1868
+   Runs required              0.1834
+   Current score              0.1062
+   Balls remaining            0.0363
+   Innings phase              0.0037
+   Innings index              0.0000
+
+[VI-F] case-study match              : Rajasthan Royals v Gujarat Titans, Ahmedabad, 2026
+   swing +20.7 WP   RA Jadeja vs Mohammed Siraj
+   swing -19.8 WP   B Sai Sudharsan vs Ravi Bishnoi
+   swing -29.8 WP   K Rabada vs TU Deshpande
+
+[VI-D] leverage concentration (mechanism behind the stability result):
+   2nd-innings death overs   : 10.0% of deliveries, 17.9% of |delta| mass
+   mean |delta| per ball     : 0.0270 death vs 0.0150 overall
+
+[VI-I] CSK head-to-head, 95% match-level bootstrap CIs:
+   overall        : 145/259 = 56.0% [49.8, 62.0]
+   batting WPA    : +0.011 [-0.031, +0.053]
+   bowling WPA    : +0.042 [+0.002, +0.085]
+   bowl - bat     : +0.030 [-0.026, +0.084]  NOT distinguishable from zero
+   opponents dropped as underpowered (n < 20): Deccan, GT, LSG, PW, KTK
+
+[VI-G] divergence, 2026 bowlers (economy vs WPA):
+   TU Deshpande             econ rank  61 -> WPA rank  26 (+35)
+   Suyash Sharma            econ rank  20 -> WPA rank  54 (-34)
+   Mohammed Shami           econ rank  18 -> WPA rank  48 (-30)
+   K Rabada                 econ rank  32 -> WPA rank   4 (+28)
+   Nithish Kumar Reddy      econ rank  45 -> WPA rank  19 (+26)
+
+!! TEXT CHANGES REQUIRED (results contradict the draft) -- see notes.md
